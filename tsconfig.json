@@ -14,7 +14,7 @@
       "*": ["node_modules/*"]
     }
   },
-  "include": ["*", "api/index.ts"],
+  "include": ["*", "index.ts"],
   "paths": {
     "@services/*": ["app/services/*"],
     "@components/*": ["app/components/*"],
