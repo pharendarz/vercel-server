@@ -39,6 +39,9 @@ expressApp.get("/", (req, res) => {
 expressApp.get("/test", (req, res) => {
   res.send({ app: "test-vercel-server" });
 });
+expressApp.get("/data", (req, res) => {
+  res.send({ data: [1, 2, 3, 4, 5, 6, 7] });
+});
 server.listen(port, () => {
   // tslint:disable-next-line:no-console
   console.log("[server] started on port " + port);
