@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es6",
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "lib": ["es2019"],
+    "sourceMap": true,
+    "outDir": "dist",
+    "baseUrl": ".",
+    "skipLibCheck": true,
+    "paths": {
+      "*": ["node_modules/*"]
+    }
+  },
+  "include": ["*", "api/index.ts"],
+  "paths": {
+    "@services/*": ["app/services/*"],
+    "@components/*": ["app/components/*"],
+    "@env/*": ["environments/*"],
+    "@models/*": ["app/models/*"],
+    "@app/*": ["app/*"],
+    "@tokens/*": ["app/tokens/*"]
+  }
+}
