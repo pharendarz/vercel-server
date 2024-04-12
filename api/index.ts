@@ -3,7 +3,7 @@ import { createServer } from "http";
 
 const expressApp = express();
 const server = createServer(expressApp);
-
+const port = process.env.PORT || 8080;
 expressApp.use((req, res, next) => {
   res.header(
     "Access-Control-Allow-Headers",
@@ -39,7 +39,7 @@ expressApp.get("/", (req, res) => {
 expressApp.get("/test", (req, res) => {
   res.send({ app: "test-vercel-server" });
 });
-server.listen(4000, () => {
+server.listen(port, () => {
   // tslint:disable-next-line:no-console
-  console.log("[server] started on port " + 4000);
+  console.log("[server] started on port " + port);
 });
