@@ -1,5 +1,16 @@
 import express from "express";
+import mongoose from "mongoose";
+
 import { createServer } from "http";
+import { Server } from "socket.io";
+import { DatabaseDefault } from "./database.model";
+import { DataDefaultModel } from "./data.model";
+
+export const config = {
+  vercelDeploy: false,
+  cloudDevDatabaseConnectionString:
+    "mongodb+srv://pharendarz:uJAbCuSkLaZ1xaty@vercel-cluster.xhsxwqj.mongodb.net/?retryWrites=true&w=majority&appName=vercel-cluster",
+};
 
 const expressApp = express();
 const server = createServer(expressApp);
@@ -33,16 +44,42 @@ expressApp.use((req, res, next) => {
   next();
 });
 
+// // # WEBSOCKETS
+// socketio.on("connection", (client: any) => {
+//   console.log("[websocket] connected");
+
+//   client.on("test event", (data: any) => {
+//     console.log("[websocket] event", data);
+//   });
+//   client.emit("test event", "[server-websocket] test event data");
+//   client.on("disconnect", () => {
+//     console.log("[websocket] disconnected");
+//   });
+// });
+
 expressApp.get("/", (req, res) => {
   res.send({ app: "vercel-server" });
 });
 expressApp.get("/test", (req, res) => {
+  // const io = req.app.get("socketio");
+  // io.emit("test event", "[server] test event data");
   res.send({ app: "test-vercel-server" });
 });
-expressApp.get("/api/data", (req, res) => {
+expressApp.get("/data", (req, res) => {
   res.send({ data: [1, 2, 3, 4, 5, 6, 7] });
 });
 server.listen(port, () => {
   // tslint:disable-next-line:no-console
   console.log("[server] started on port " + port);
 });
+
+// "scripts": {
+//   "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
+//   "build": "tsc",
+//   "prestart": "npm run build",
+//   "start1": "node .",
+//   "start": "node --inspect=5858 -r ts-node/register ./api/index.ts",
+//   "server": "nodemon ./api/index.js",
+//   "start:watch": "nodemon",
+//   "test": "echo \"Error: no test specified\" && exit 1"
+// },
