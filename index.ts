@@ -1,6 +1,16 @@
 import express from "express";
+import mongoose from "mongoose";
+
 import { createServer } from "http";
 import { Server } from "socket.io";
+import { DatabaseDefault } from "./database.model";
+import { DataDefaultModel } from "./data.model";
+
+export const config = {
+  vercelDeploy: true,
+  cloudDevDatabaseConnectionString:
+    "mongodb+srv://pharendarz:z3iduibUFn96NVX4@vercel-app.6qvdqiy.mongodb.net/?retryWrites=true&w=majority&appName=vercel-app",
+};
 
 const expressApp = express();
 const server = createServer(expressApp);
@@ -10,6 +20,14 @@ const port = process.env.PORT || 8080;
 const isServer = createServer(expressApp);
 const socketio = new Server(server, {
   cors: { origin: "*" },
+});
+// monogdb
+const dbString = config.vercelDeploy
+  ? process.env.MONGODB_URI
+  : config.cloudDevDatabaseConnectionString;
+mongoose.connect(dbString, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 
 expressApp.use((req, res, next) => {
@@ -64,6 +82,16 @@ expressApp.get("/test", (req, res) => {
 });
 expressApp.get("/api/data", (req, res) => {
   res.send({ data: [1, 2, 3, 4, 5, 6, 7, 8] });
+});
+expressApp.get("/api/create-data", (req, res) => {
+  const data = {
+    user: "user_id",
+    name: "name",
+    surname: "surname",
+  };
+  const database = new DatabaseDefault(DataDefaultModel);
+  database.create(data);
+  res.send({ create: data });
 });
 server.listen(port, () => {
   // tslint:disable-next-line:no-console
