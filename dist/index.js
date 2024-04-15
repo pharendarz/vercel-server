@@ -48,11 +48,11 @@ expressApp.get("/", (req, res) => {
 });
 expressApp.get("/test", (req, res) => {
     const io = req.app.get("socketio");
-    io.emit("test event", "[server] test event data");
+    // io.emit("test event", "[server] test event data");
     res.send({ app: "test-vercel-server" });
 });
 expressApp.get("/api/data", (req, res) => {
-    res.send({ data: [1, 2, 3, 4, 5, 6, 7] });
+    res.send({ data: [1, 2, 3, 4, 5, 6, 7, 8] });
 });
 server.listen(port, () => {
     // tslint:disable-next-line:no-console
