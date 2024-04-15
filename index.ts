@@ -80,18 +80,8 @@ expressApp.get("/test", (req, res) => {
   // io.emit("test event", "[server] test event data");
   res.send({ app: "test-vercel-server" });
 });
-expressApp.get("/api/data", (req, res) => {
-  res.send({ data: [1, 2, 3, 4, 5, 6, 7, 8] });
-});
-expressApp.get("/api/create-data", (req, res) => {
-  const data = {
-    user: "user_id",
-    name: "name",
-    surname: "surname",
-  };
-  const database = new DatabaseDefault(DataDefaultModel);
-  database.create(data);
-  res.send({ create: data });
+expressApp.get("/data", (req, res) => {
+  res.send({ data: [1, 2, 3, 4, 5, 6, 7] });
 });
 server.listen(port, () => {
   // tslint:disable-next-line:no-console
