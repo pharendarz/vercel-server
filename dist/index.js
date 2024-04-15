@@ -5,31 +5,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.config = void 0;
 const express_1 = __importDefault(require("express"));
-const mongoose_1 = __importDefault(require("mongoose"));
 const http_1 = require("http");
-const socket_io_1 = require("socket.io");
 const database_model_1 = require("./database.model");
 const data_model_1 = require("./data.model");
 exports.config = {
-    vercelDeploy: true,
-    cloudDevDatabaseConnectionString: "mongodb+srv://pharendarz:z3iduibUFn96NVX4@vercel-app.6qvdqiy.mongodb.net/?retryWrites=true&w=majority&appName=vercel-app",
+    vercelDeploy: false,
+    cloudDevDatabaseConnectionString: "mongodb+srv://pharendarz:uJAbCuSkLaZ1xaty@vercel-cluster.xhsxwqj.mongodb.net/?retryWrites=true&w=majority&appName=vercel-cluster",
 };
 const expressApp = (0, express_1.default)();
 const server = (0, http_1.createServer)(expressApp);
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 4100;
 // websocket
-const isServer = (0, http_1.createServer)(expressApp);
-const socketio = new socket_io_1.Server(server, {
-    cors: { origin: "*" },
-});
+// const isServer = createServer(expressApp);
+// const socketio = new Server(server, {
+//   cors: { origin: "*" },
+// });
 // monogdb
 const dbString = exports.config.vercelDeploy
     ? process.env.MONGODB_URI
     : exports.config.cloudDevDatabaseConnectionString;
-mongoose_1.default.connect(dbString, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
+// mongoose.connect(dbString, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// });
 expressApp.use((req, res, next) => {
     res.header("Access-Control-Allow-Headers", "x-access-token, Origin, Content-Type, Accept");
     next();
@@ -49,21 +47,21 @@ expressApp.use((req, res, next) => {
     next();
 });
 // // # WEBSOCKETS
-socketio.on("connection", (client) => {
-    console.log("[websocket] connected");
-    client.on("test event", (data) => {
-        console.log("[websocket] event", data);
-    });
-    client.emit("test event", "[server-websocket] test event data");
-    client.on("disconnect", () => {
-        console.log("[websocket] disconnected");
-    });
-});
+// socketio.on("connection", (client: any) => {
+//   console.log("[websocket] connected");
+//   client.on("test event", (data: any) => {
+//     console.log("[websocket] event", data);
+//   });
+//   client.emit("test event", "[server-websocket] test event data");
+//   client.on("disconnect", () => {
+//     console.log("[websocket] disconnected");
+//   });
+// });
 expressApp.get("/", (req, res) => {
     res.send({ app: "vercel-server" });
 });
 expressApp.get("/test", (req, res) => {
-    const io = req.app.get("socketio");
+    // const io = req.app.get("socketio");
     // io.emit("test event", "[server] test event data");
     res.send({ app: "test-vercel-server" });
 });
@@ -84,4 +82,14 @@ server.listen(port, () => {
     // tslint:disable-next-line:no-console
     console.log("[server] started on port " + port);
 });
+// "scripts": {
+//   "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
+//   "build": "tsc",
+//   "prestart": "npm run build",
+//   "start1": "node .",
+//   "start": "node --inspect=5858 -r ts-node/register ./api/index.ts",
+//   "server": "nodemon ./api/index.js",
+//   "start:watch": "nodemon",
+//   "test": "echo \"Error: no test specified\" && exit 1"
+// },
 //# sourceMappingURL=index.js.map

@@ -4,7 +4,9 @@
   "description": "",
   "main": "dist/api/index.js",
   "scripts": {
-    "start": "nodemon src/index.ts",
+    "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
+    "start": "node --inspect=5858 -r ts-node/register index.ts",
+    "start:watch": "nodemon",
     "build": "rimraf dist && tsc",
     "ts.check": "tsc --project tsconfig.json",
     "add-build": "git add dist",
@@ -49,7 +51,8 @@
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
     "rimraf": "^5.0.5",
-    "socket.io": "^4.7.2"
+    "socket.io": "^4.7.2",
+    "vercel": "^34.0.0"
   },
   "devDependencies": {
     "@types/node": "^13.9.0",
