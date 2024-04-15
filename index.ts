@@ -3,7 +3,7 @@ import { createServer } from "http";
 
 const expressApp = express();
 const server = createServer(expressApp);
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 4100;
 expressApp.use((req, res, next) => {
   res.header(
     "Access-Control-Allow-Headers",

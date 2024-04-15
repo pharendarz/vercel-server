@@ -7,7 +7,7 @@ const express_1 = __importDefault(require("express"));
 const http_1 = require("http");
 const expressApp = (0, express_1.default)();
 const server = (0, http_1.createServer)(expressApp);
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 4100;
 expressApp.use((req, res, next) => {
     res.header("Access-Control-Allow-Headers", "x-access-token, Origin, Content-Type, Accept");
     next();
