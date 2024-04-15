@@ -1,9 +1,17 @@
 import express from "express";
 import { createServer } from "http";
+import { Server } from "socket.io";
 
 const expressApp = express();
 const server = createServer(expressApp);
+
 const port = process.env.PORT || 8080;
+// websocket
+const isServer = createServer(expressApp);
+const socketio = new Server(server, {
+  cors: { origin: "*" },
+});
+
 expressApp.use((req, res, next) => {
   res.header(
     "Access-Control-Allow-Headers",
@@ -33,10 +41,25 @@ expressApp.use((req, res, next) => {
   next();
 });
 
+// // # WEBSOCKETS
+socketio.on("connection", (client: any) => {
+  console.log("[websocket] connected");
+
+  client.on("test event", (data: any) => {
+    console.log("[websocket] event", data);
+  });
+  client.emit("test event", "[server-websocket] test event data");
+  client.on("disconnect", () => {
+    console.log("[websocket] disconnected");
+  });
+});
+
 expressApp.get("/", (req, res) => {
   res.send({ app: "vercel-server" });
 });
 expressApp.get("/test", (req, res) => {
+  const io = req.app.get("socketio");
+  io.emit("test event", "[server] test event data");
   res.send({ app: "test-vercel-server" });
 });
 expressApp.get("/api/data", (req, res) => {
