@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.config = void 0;
 const express_1 = __importDefault(require("express"));
+const mongoose_1 = __importDefault(require("mongoose"));
 const http_1 = require("http");
 exports.config = {
     vercelDeploy: false,
@@ -31,17 +32,11 @@ expressApp.use((req, res, next) => {
     // Pass to next layer of middleware
     next();
 });
-// // # WEBSOCKETS
-// socketio.on("connection", (client: any) => {
-//   console.log("[websocket] connected");
-//   client.on("test event", (data: any) => {
-//     console.log("[websocket] event", data);
-//   });
-//   client.emit("test event", "[server-websocket] test event data");
-//   client.on("disconnect", () => {
-//     console.log("[websocket] disconnected");
-//   });
-// });
+// mongoose
+mongoose_1.default.connect(exports.config.cloudDevDatabaseConnectionString, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
 expressApp.get("/", (req, res) => {
     res.send({ app: "vercel-server" });
 });
